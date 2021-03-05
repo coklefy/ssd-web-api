@@ -6,7 +6,7 @@ namespace SsdWebApi
     {
         public int id {get; set ;}
         public int anno {get; set;}
-        public int serie {get; set;}
+        public string serie {get; set;}
         
     }
 }
