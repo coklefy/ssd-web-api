@@ -29,6 +29,13 @@ namespace SsdWebApi
         {
             services.AddDbContext<StagioneContext>(options => options.UseSqlite("Data Source=testDB.sqlite"));
             services.AddControllers();
+
+            services.AddCors(options => {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                                    .AllowAnyMethod()
+                                    .AllowAnyHeader());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,6 +46,12 @@ namespace SsdWebApi
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseDefaultFiles();          // for client servicing
+            app.UseStaticFiles();           // for client servicing
+            app.UseCors("CorsPolicy");      // disable cors
+            app.UseHttpsRedirection();
+            app.UseRouting();
+
             app.UseRouting();
 
             app.UseAuthorization();
@@ -47,6 +60,8 @@ namespace SsdWebApi
             {
                 endpoints.MapControllers();
             });
+
+
         }
     }
 }
